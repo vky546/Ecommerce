@@ -1,5 +1,6 @@
 package com.ignek.ecommerce.model;
 
+import java.util.Iterator;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -45,6 +46,18 @@ public class User {
 			inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")}
 			)
 	private List<Role> roles;
+	
+	public boolean hasRole(String roleName) {
+        Iterator<Role> iterator = this.roles.iterator();
+        while (iterator.hasNext()) {
+            Role role = iterator.next();
+            if (role.getName().equals(roleName)) {
+                return true;
+            }
+        }
+         
+        return false;
+    }
 
 	public Integer getId() {
 		return id;

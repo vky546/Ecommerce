@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails extends User implements UserDetails {
 	
+	private User user;
+	
 	public CustomUserDetails(User user){
 		super(user);
 	}
@@ -21,6 +23,11 @@ public class CustomUserDetails extends User implements UserDetails {
 			authoritieList.add(new SimpleGrantedAuthority(role.getName()));
 		});
 		return authoritieList;
+	}
+	
+	@Override
+	public List<Role> getRoles() {
+		return super.getRoles();
 	}
 
 	@Override

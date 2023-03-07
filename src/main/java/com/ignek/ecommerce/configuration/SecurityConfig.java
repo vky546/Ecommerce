@@ -21,6 +21,9 @@ import com.ignek.ecommerce.service.CustomUserDetailService;
 @EnableWebSecurity
 @EnableGlobalAuthentication
 public class SecurityConfig {
+	
+	@Autowired
+	private LoginSuccessHandler loginSuccessHandler;
 
 	@Autowired
 	private GoogleOAuth2SuccessHandler googleOAuth2SuccessHandler;
@@ -33,7 +36,7 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests().requestMatchers("/", "/shop/**", "/register").permitAll()
 				.requestMatchers("/admin/**").hasRole("ADMIN").anyRequest().authenticated().and().formLogin()
-				.loginPage("/login").permitAll().failureUrl("/login?error=true").defaultSuccessUrl("/")
+				.loginPage("/login").permitAll().failureUrl("/login?error=true").successHandler(loginSuccessHandler)
 				.usernameParameter("email").passwordParameter("password").and().oauth2Login().loginPage("/login")
 				.successHandler(googleOAuth2SuccessHandler).and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")

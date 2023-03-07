@@ -26,7 +26,7 @@ import com.ignek.ecommerce.service.ProductService;
 @Controller
 public class AdminController {
 	
-	public static String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/productImages";
+	public static String uploadDir = "src/main/resources/static/productImages";
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -100,9 +100,10 @@ public class AdminController {
 		product.setDescription(productDTO.getDescription());
 		String imageUUID;
 		if(!file.isEmpty()) {
-			imageUUID = file.getOriginalFilename();
-			Path fileNameAndPath = Paths.get(uploadDir, imageUUID);
-			Files.write(fileNameAndPath, file.getBytes());
+			
+				imageUUID = file.getOriginalFilename();
+				Path fileNameAndPath = Paths.get(uploadDir, imageUUID);
+				Files.write(fileNameAndPath, file.getBytes());		
 		}
 		else {
 			imageUUID = imgName;
@@ -117,7 +118,17 @@ public class AdminController {
 	}
 	
 	@GetMapping("/admin/product/delete/{id}")
-	public String deleteProduct(@PathVariable Long id) {
+	public String deleteProduct(@PathVariable Long id) throws IOException {
+		Product product = productService.findProductById(id).get();
+		String imgName =  product.getImageName();
+		Path path = Paths.get("src/main/resources/static/productImages/" + imgName);
+		
+		boolean isDeleted = Files.deleteIfExists(path);
+		if(isDeleted) {
+		    System.out.println("File"+ imgName+ "deleted successfully at path" + path);
+		} else {
+		    System.out.println("File doesn't exist");
+		}
 		productService.deleteProduct(id);
 		return "redirect:/admin/products";
 	}
