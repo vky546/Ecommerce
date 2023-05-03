@@ -80,7 +80,7 @@
 			<optional>true</optional>
 		</dependency>
 	</dependencies>
-<!-- 	<repositories>
+	<repositories>
 		<repository>
 			<snapshots>
 				<enabled>true</enabled>
@@ -94,7 +94,7 @@
 			<id>my-repo1</id>
 			<url> http://artifactorypg.paytm.in/artifactory/libs-release </url>
 		</repository>
-	</repositories> -->
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
